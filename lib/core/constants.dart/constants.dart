@@ -1,0 +1,1 @@
+const String tasksURL = "http://www.boredapi.com/api/";
