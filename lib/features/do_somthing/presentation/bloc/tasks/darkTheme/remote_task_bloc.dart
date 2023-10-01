@@ -11,9 +11,9 @@ class DarkThemeBloc extends Bloc<DarkThemeEvent, DarkThemeState> {
 
   void onDarkTheme() async {
     isDark = !isDark;
-    emit(DarkThemeDone(
-      isDark
-    ));
+    // emit(DarkThemeDone(
+    //   isDark
+    // ));
     print(isDark);
   }
 }
