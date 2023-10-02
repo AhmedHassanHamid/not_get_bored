@@ -18,6 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   var size, height, width;
   late final TasksEntitie? task;
   @override
@@ -35,7 +36,9 @@ class _HomeState extends State<Home> {
           return const Center(child: CupertinoActivityIndicator());
         }
         if (state is RemoteTasksError) {
+          print("${state.error} //////////////////////");
           return const Center(child: Icon(Icons.refresh));
+          
         }
         if (state is RemoteTasksDone) {
           final currentTask = state.tasks!.activity;
@@ -69,7 +72,7 @@ class _HomeState extends State<Home> {
                     fontSize: width / 8, // Adjust the font size
                     fontWeight:
                         FontWeight.bold, // FontWeight.bold for bold text
-                    color: Colors.black, // Text color
+                    //color: Colors.black, // Text color
                     letterSpacing: 1.2, // Spacing between letters
                     fontStyle: FontStyle.italic, // Italicize the text
                   ),
@@ -106,7 +109,7 @@ class _HomeState extends State<Home> {
                     IconButton(
                         onPressed: () {
                           Share.share(
-                              "“ ${currentTask!} „ \n This a Task From Not Get Bored App");
+                              "“${currentTask!}„ \n This a Task From Not Get Bored App");
                         },
                         icon: Icon(CupertinoIcons.share))
                   ],
