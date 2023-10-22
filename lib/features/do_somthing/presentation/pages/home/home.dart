@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:not_get_bored/config/theme/color.dart';
+import 'package:not_get_bored/core/constants.dart/animation.dart';
 import 'package:not_get_bored/features/do_somthing/domain/entities/tasks.dart';
 import 'package:not_get_bored/features/do_somthing/presentation/bloc/tasks/darkTheme/remote_task_bloc.dart';
 import 'package:not_get_bored/features/do_somthing/presentation/bloc/tasks/remote/remote_task_bloc.dart';
@@ -18,9 +19,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   var size, height, width;
   late final TasksEntitie? task;
+  int delayAmount = 500;
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -38,10 +39,9 @@ class _HomeState extends State<Home> {
         if (state is RemoteTasksError) {
           print("${state.error} //////////////////////");
           return const Center(child: Icon(Icons.refresh));
-          
         }
         if (state is RemoteTasksDone) {
-          final currentTask = state.tasks!.activity;
+          var currentTask = state.tasks!.activity;
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,18 +64,23 @@ class _HomeState extends State<Home> {
                   );
                 },
               ),
+
               Padding(
                 padding: EdgeInsets.only(left: width / 20, top: height / 5),
-                child: Text(
-                  currentTask.toString(),
-                  style: TextStyle(
-                    fontSize: width / 8, // Adjust the font size
-                    fontWeight:
-                        FontWeight.bold, // FontWeight.bold for bold text
-                    //color: Colors.black, // Text color
-                    letterSpacing: 1.2, // Spacing between letters
-                    fontStyle: FontStyle.italic, // Italicize the text
+                child: ShowUp(
+                  key: UniqueKey(),
+                  child: Text(
+                    currentTask.toString(),
+                    style: TextStyle(
+                      fontSize: width / 8, // Adjust the font size
+                      fontWeight:
+                          FontWeight.bold, // FontWeight.bold for bold text
+                      //color: Colors.black, // Text color
+                      letterSpacing: 1.2, // Spacing between letters
+                      fontStyle: FontStyle.italic, // Italicize the text
+                    ),
                   ),
+                  delay: delayAmount,
                 ),
               ),
               Spacer(),
@@ -91,6 +96,11 @@ class _HomeState extends State<Home> {
                               BlocProvider.of<RemoteTasksBloc>(context);
                           // Call onGetTasks by dispatching the GetTasks event
                           remoteTasksBloc.add(GetTasks());
+                          // Set the new task to animate
+                          currentTask = state.tasks!.activity;
+
+                          // Show the animation immediately
+                          delayAmount = 300;
                         });
                       },
                       child: Text(
